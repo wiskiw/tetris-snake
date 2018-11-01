@@ -6,6 +6,8 @@ import yablonski.a.presenter.MainPresenter;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class MainView extends JFrame implements MainViewInterface {
 
@@ -23,7 +25,7 @@ public class MainView extends JFrame implements MainViewInterface {
     private static int gameFieldSizeY = (int) (30 / GAME_SQUARE_SIZE_FACTOR);
 
 
-    private JLabel scoreLabel = new JLabel("Score: -- ");
+    private JLabel textLabel = new JLabel("Score: -- ");
     private JPanel gameFieldPane;
     private JPanel controlPane;
 
@@ -31,7 +33,6 @@ public class MainView extends JFrame implements MainViewInterface {
 
     public MainView() throws HeadlessException {
         super("Snake-Tetris");
-        presenter = new MainPresenter(this);
 
         this.setBounds(500, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +44,8 @@ public class MainView extends JFrame implements MainViewInterface {
         // Control/stats field
         prepareControlBar();
 
+        initPressListener();
+
 
         JPanel panesHolder = new JPanel();
         panesHolder.setLayout(new BoxLayout(panesHolder, BoxLayout.Y_AXIS));
@@ -51,8 +54,32 @@ public class MainView extends JFrame implements MainViewInterface {
 
         this.add(panesHolder);
 
+        presenter = new MainPresenter(this, gameFieldSizeX, gameFieldSizeY);
+    }
 
-        presenter.init();
+    public void update() {
+        presenter.tickUpdate();
+    }
+
+    private void initPressListener() {
+        KeyListener listener = new KeyListener() {
+            @Override
+            public void keyPressed(KeyEvent event) {
+                presenter.onKeyPress(event);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent event) {
+                //System.out.println("Key Released: " + event.toString());
+            }
+
+            @Override
+            public void keyTyped(KeyEvent event) {
+                //System.out.println("Key Typed: " + event.toString());
+            }
+        };
+
+        this.addKeyListener(listener);
     }
 
     private void prepareGameField() {
@@ -84,13 +111,13 @@ public class MainView extends JFrame implements MainViewInterface {
     private void prepareControlBar() {
         controlPane = new JPanel(new FlowLayout(FlowLayout.CENTER));
         controlPane.setBackground(new Color(250, 126, 3));
-        controlPane.add(scoreLabel);
+        controlPane.add(textLabel);
         controlPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, CONTROLS_BAR_HEIGHT));
 
 
         // Changing Score text size, padding
-        scoreLabel.setFont(new Font(scoreLabel.getFont().getName(), Font.PLAIN, 16));
-        scoreLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
+        textLabel.setFont(new Font(textLabel.getFont().getName(), Font.PLAIN, 16));
+        textLabel.setBorder(new EmptyBorder(10, 0, 10, 0));
     }
 
     @Override
@@ -109,18 +136,18 @@ public class MainView extends JFrame implements MainViewInterface {
     @Override
     public void updateScore(int score) {
         if (score >= 0) {
-            scoreLabel.setVisible(true);
-            scoreLabel.setText("Score: " + score);
+            textLabel.setVisible(true);
+            textLabel.setText("Score: " + score);
         } else {
-            scoreLabel.setText("Score: 0");
-            scoreLabel.setVisible(false);
+            textLabel.setText("Score: 0");
+            textLabel.setVisible(false);
         }
     }
 
     @Override
     public void showMessage(String msg) {
-        scoreLabel.setVisible(true);
-        scoreLabel.setText(msg);
+        textLabel.setVisible(true);
+        textLabel.setText(msg);
     }
 
     @Override
