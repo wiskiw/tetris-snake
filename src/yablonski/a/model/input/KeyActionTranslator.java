@@ -18,11 +18,11 @@ public class KeyActionTranslator {
 
     }
 
-    public static final int KEY_CODE_UP = 38;
-    public static final int KEY_CODE_DOWN = 40;
-    public static final int KEY_CODE_RIGHT = 39;
-    public static final int KEY_CODE_LEFT = 37;
-    public static final int KEY_CODE_ACTION = 32; // space
+    private static final int KEY_CODE_UP = 38;
+    private static final int KEY_CODE_DOWN = 40;
+    private static final int KEY_CODE_RIGHT = 39;
+    private static final int KEY_CODE_LEFT = 37;
+    private static final int KEY_CODE_ACTION = 32; // space
 
     private Callback callback;
 

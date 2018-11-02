@@ -19,7 +19,7 @@ public class MainView extends JFrame implements MainViewInterface {
     private static final int WINDOW_WIDTH = 400;
 
 
-    private static final double GAME_SQUARE_SIZE_FACTOR = 1.3;
+    private static final double GAME_SQUARE_SIZE_FACTOR = 1.6;
 
     private static int gameFieldSizeX = (int) (25 / GAME_SQUARE_SIZE_FACTOR);
     private static int gameFieldSizeY = (int) (30 / GAME_SQUARE_SIZE_FACTOR);
@@ -37,6 +37,9 @@ public class MainView extends JFrame implements MainViewInterface {
         this.setBounds(500, 100, WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
+        System.out.println("gameFieldSizeX: " +gameFieldSizeX);
+        System.out.println("gameFieldSizeY: " +gameFieldSizeY);
 
         // Game field
         prepareGameField();
@@ -95,13 +98,11 @@ public class MainView extends JFrame implements MainViewInterface {
                 gameSquaresHolder[x][y] = new JPanel();
 
 
-                /*
                 //debug grid
                 l = new JLabel(x + ":" + y);
                 l.setFont(new Font(l.getFont().getName(), Font.PLAIN, 8));
-                gameSquaresHolder[x][y].setBackground(new Color(y * 5, x * 0, 0));
+                //gameSquaresHolder[x][y].setBackground(new Color(y * 5, x * 0, 0));
                 gameSquaresHolder[x][y].add(l);
-                */
 
                 gameFieldPane.add(gameSquaresHolder[x][y]);
             }
@@ -122,11 +123,14 @@ public class MainView extends JFrame implements MainViewInterface {
 
     @Override
     public boolean updateSquare(int x, int y, Color color) {
+        // переход к координатной сетке JPanel
+        x = x - 1;
+        y = gameFieldSizeY - y - 1;
         if (x < 0 || y < 0) {
             return false;
         }
-        if (y < gameSquaresHolder.length && x < gameSquaresHolder[y].length) {
-            gameSquaresHolder[y][x].setBackground(color);
+        if (x < gameSquaresHolder.length && y < gameSquaresHolder[x].length) {
+            gameSquaresHolder[x][y].setBackground(color);
             return true;
         } else {
             return false;
@@ -153,5 +157,14 @@ public class MainView extends JFrame implements MainViewInterface {
     @Override
     public Pair<Integer, Integer> getGameFieldSize() {
         return new Pair<>(gameFieldSizeX, gameFieldSizeY);
+    }
+
+    @Override
+    public void clearGameField() {
+        for (int y = 0; y < gameFieldSizeY; y++) {
+            for (int x = 0; x < gameFieldSizeX; x++) {
+                gameSquaresHolder[x][y].setBackground(null);
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 public class Main {
 
-    private static final Long SPEED = 200L;
+    private static final Long SPEED = 400L;
 
     public static void main(String[] args) {
         MainView mainView = new MainView();
@@ -16,7 +16,8 @@ public class Main {
         Timer timer = new Timer("Tick");
         long delay = SPEED + 1000;
         long period = SPEED;
-        timer.scheduleAtFixedRate(new TimerTask() {
+        // scheduleAtFixedRate
+        timer.schedule(new TimerTask() {
             public void run() {
                 mainView.update();
             }

@@ -14,4 +14,6 @@ public interface MainViewInterface {
 
     Pair<Integer, Integer> getGameFieldSize();
 
+    void clearGameField();
+
 }

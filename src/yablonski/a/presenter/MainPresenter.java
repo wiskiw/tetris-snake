@@ -1,9 +1,9 @@
 package yablonski.a.presenter;
 
 import yablonski.a.model.FieldMap;
-import yablonski.a.model.input.KeyEventController;
 import yablonski.a.model.SnakeTetris;
 import yablonski.a.model.SnakeTetrisCallback;
+import yablonski.a.model.input.KeyEventController;
 import yablonski.a.view.MainViewInterface;
 
 import java.awt.event.KeyEvent;
@@ -15,10 +15,10 @@ public class MainPresenter implements SnakeTetrisCallback {
     private SnakeTetris snakeTetris;
     private KeyEventController keyEventController;
 
-    public MainPresenter(MainViewInterface view, int xSize, int ySize) {
+    public MainPresenter(MainViewInterface view, int mapWidth, int mapHeight) {
         this.view = view;
         this.keyEventController = new KeyEventController();
-        this.snakeTetris = new SnakeTetris(this, xSize, ySize);
+        this.snakeTetris = new SnakeTetris(this, mapWidth, mapHeight);
     }
 
     public void onKeyPress(KeyEvent event) {
@@ -34,10 +34,9 @@ public class MainPresenter implements SnakeTetrisCallback {
     }
 
     private void redrawMap(FieldMap fieldMap) {
-        fieldMap.forEach((x, y, color) -> {
-            view.updateSquare(x, y, color);
-            return null;
-        });
+        view.clearGameField();
+        fieldMap.getBlocks().forEach(block ->
+                view.updateSquare(block.getX(), block.getY(), block.getColor()));
     }
 
 
