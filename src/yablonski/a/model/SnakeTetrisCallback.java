@@ -2,9 +2,7 @@ package yablonski.a.model;
 
 public interface SnakeTetrisCallback {
 
-    void onGameUpdate(FieldMap map, int score);
+    void onGameUpdate(int score);
 
-    void onPauseUpdate(String msg);
-
-
+    void onGameOver(int score);
 }

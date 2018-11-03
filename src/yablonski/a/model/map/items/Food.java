@@ -24,9 +24,8 @@ public class Food implements MapCreature {
         body.add(block);
     }
 
-    @Override
-    public boolean isIn(int x, int y) {
-        return this.block.getX() == x && this.block.getY() == y;
+    public boolean isIn(Block nextBlock) {
+        return block.isIn(nextBlock);
     }
 
     @Override

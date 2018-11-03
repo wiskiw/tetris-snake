@@ -1,6 +1,5 @@
 package yablonski.a.presenter;
 
-import yablonski.a.model.FieldMap;
 import yablonski.a.model.SnakeTetris;
 import yablonski.a.model.SnakeTetrisCallback;
 import yablonski.a.model.input.KeyEventController;
@@ -18,7 +17,7 @@ public class MainPresenter implements SnakeTetrisCallback {
     public MainPresenter(MainViewInterface view, int mapWidth, int mapHeight) {
         this.view = view;
         this.keyEventController = new KeyEventController();
-        this.snakeTetris = new SnakeTetris(this, mapWidth, mapHeight);
+        this.snakeTetris = new SnakeTetris(this, mapWidth, mapHeight, false);
     }
 
     public void onKeyPress(KeyEvent event) {
@@ -33,24 +32,21 @@ public class MainPresenter implements SnakeTetrisCallback {
         snakeTetris.update();
     }
 
-    private void redrawMap(FieldMap fieldMap) {
+    private void redrawMap() {
         view.clearGameField();
-        fieldMap.getBlocks().forEach(block ->
+        snakeTetris.getBlocksToDraw().forEach(block ->
                 view.updateSquare(block.getX(), block.getY(), block.getColor()));
     }
 
 
     @Override
-    public void onGameUpdate(FieldMap map, int score) {
-        redrawMap(map);
+    public void onGameUpdate(int score) {
+        redrawMap();
         view.updateScore(score);
     }
 
     @Override
-    public void onPauseUpdate(String msg) {
-        //redrawMap();
-        if (msg != null) {
-            view.showMessage(msg);
-        }
+    public void onGameOver(int score) {
+        view.showMessage("Game Over! Your score: " + score);
     }
 }

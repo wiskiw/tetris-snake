@@ -58,13 +58,6 @@ public class Creature implements SnakeCreature, TetrisCreature {
     }
 
     @Override
-    public void turn(TurnDirection turnDirection) {
-        int newMovingDirValue = movingDirection.getValue() + turnDirection.getValue();
-        newMovingDirValue = newMovingDirValue % 3;
-        movingDirection = Direction.valueOf(newMovingDirValue);
-    }
-
-    @Override
     public void setMovingDirection(Direction direction) {
         this.movingDirection = direction;
     }
@@ -78,11 +71,6 @@ public class Creature implements SnakeCreature, TetrisCreature {
     @Override
     public Direction getMovingDirection() {
         return movingDirection;
-    }
-
-    @Override
-    public boolean isIn(int x, int y) {
-        return false;
     }
 
     @Override

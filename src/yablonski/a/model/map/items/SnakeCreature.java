@@ -2,20 +2,16 @@ package yablonski.a.model.map.items;
 
 import yablonski.a.model.Block;
 import yablonski.a.model.Direction;
-import yablonski.a.model.TurnDirection;
 
 import java.awt.*;
 
 public interface SnakeCreature extends MovableMapCreature {
 
-    Color COLOR_HEAD = new Color(222, 104, 103);
-    Color COLOR_BODY = new Color(222, 152, 127);
+    Color COLOR_HEAD = new Color(222, 215, 73);
+    Color COLOR_BODY = new Color(222, 160, 64);
 
     // сдвинуть по направлению движения
     void moveSnake();
-
-    // повернуть
-    void turn(TurnDirection turnDirection);
 
     // изменить направления движения
     void setMovingDirection(Direction direction);

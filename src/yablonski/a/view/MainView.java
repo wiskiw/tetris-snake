@@ -25,7 +25,7 @@ public class MainView extends JFrame implements MainViewInterface {
     private static int gameFieldSizeY = (int) (30 / GAME_SQUARE_SIZE_FACTOR);
 
 
-    private JLabel textLabel = new JLabel("Score: -- ");
+    private JLabel textLabel = new JLabel();
     private JPanel gameFieldPane;
     private JPanel controlPane;
 
@@ -38,8 +38,8 @@ public class MainView extends JFrame implements MainViewInterface {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        System.out.println("gameFieldSizeX: " +gameFieldSizeX);
-        System.out.println("gameFieldSizeY: " +gameFieldSizeY);
+        System.out.println("gameFieldSizeX: " + gameFieldSizeX);
+        System.out.println("gameFieldSizeY: " + gameFieldSizeY);
 
         // Game field
         prepareGameField();

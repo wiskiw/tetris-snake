@@ -75,4 +75,8 @@ public class Block {
                 ", color=" + color +
                 '}';
     }
+
+    public boolean isIn(Block nextBlock){
+        return nextBlock.getX() == this.x && nextBlock.getY() == this.y;
+    }
 }
