@@ -11,7 +11,7 @@ public class Food implements MapCreature {
     private Block block;
 
     public static Color randomColor() {
-        return Color.BLUE;
+        return Color.GREEN;
     }
 
     public Food(int x, int y, Color color) {
@@ -37,5 +37,10 @@ public class Food implements MapCreature {
     @Override
     public String toString() {
         return "Food {" + block + '}';
+    }
+
+    @Override
+    public void recolor(Color color) {
+        block.setColor(color);
     }
 }

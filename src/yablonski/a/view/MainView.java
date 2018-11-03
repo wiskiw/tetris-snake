@@ -19,7 +19,7 @@ public class MainView extends JFrame implements MainViewInterface {
     private static final int WINDOW_WIDTH = 400;
 
 
-    private static final double GAME_SQUARE_SIZE_FACTOR = 1.6;
+    private static final double GAME_SQUARE_SIZE_FACTOR = 2;
 
     private static int gameFieldSizeX = (int) (25 / GAME_SQUARE_SIZE_FACTOR);
     private static int gameFieldSizeY = (int) (30 / GAME_SQUARE_SIZE_FACTOR);
@@ -97,13 +97,13 @@ public class MainView extends JFrame implements MainViewInterface {
             for (int x = 0; x < gameFieldSizeX; x++) {
                 gameSquaresHolder[x][y] = new JPanel();
 
-
+/*
                 //debug grid
                 l = new JLabel(x + ":" + y);
                 l.setFont(new Font(l.getFont().getName(), Font.PLAIN, 8));
                 //gameSquaresHolder[x][y].setBackground(new Color(y * 5, x * 0, 0));
                 gameSquaresHolder[x][y].add(l);
-
+*/
                 gameFieldPane.add(gameSquaresHolder[x][y]);
             }
         }

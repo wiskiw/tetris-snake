@@ -8,8 +8,8 @@ import java.awt.*;
 
 public interface SnakeCreature extends MovableMapCreature {
 
-    Color COLOR_HEAD = Color.YELLOW;
-    Color COLOR_BODY = Color.GREEN;
+    Color COLOR_HEAD = new Color(222, 104, 103);
+    Color COLOR_BODY = new Color(222, 152, 127);
 
     // сдвинуть по направлению движения
     void moveSnake();

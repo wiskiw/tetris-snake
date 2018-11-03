@@ -1,8 +1,9 @@
 package yablonski.a.model;
 
 import yablonski.a.model.input.KeyActionTranslator;
+import yablonski.a.model.map.items.Creature;
 import yablonski.a.model.map.items.Food;
-import yablonski.a.model.map.items.SnakeCreature;
+import yablonski.a.model.map.items.TetrisCreature;
 
 import java.awt.event.KeyEvent;
 
@@ -12,20 +13,24 @@ public class SnakeTetris implements KeyActionTranslator.Callback {
     private SnakeTetrisCallback callback;
     private FieldMap map;
     private int score = 0;
-    private GameState gameState = GameState.SNAKE;
+    private CreatureState creatureState = CreatureState.SNAKE;
 
-    private SnakeCreature snakeCreature;
+    private Creature creature;
     private Food food;
 
     public SnakeTetris(SnakeTetrisCallback callback, int mapWidth, int mapHeight) {
         map = new FieldMap(mapWidth, mapHeight);
         keyTranslator = new KeyActionTranslator(this);
         this.callback = callback;
-
-        snakeCreature = map.spawnSnake(4);
-        food = map.spawnFood();
+        spawnSnakeFood();
     }
 
+    private void spawnSnakeFood() {
+        creature = map.spawnSnake(4);
+        if (food == null) {
+            food = map.spawnFood();
+        }
+    }
 
     public void onKeyPress(KeyEvent event) {
         keyTranslator.process(event);
@@ -33,34 +38,54 @@ public class SnakeTetris implements KeyActionTranslator.Callback {
 
     // tick update method
     public void update() {
-        //System.out.println("update");
-        callback.onGameUpdate(map, score);
-        snakeCreature.moveSnake();
+        switch (creatureState) {
+            case SNAKE:
+                if (map.isNextStepAllow(creature)) {
+                    creature.moveSnake();
+                    if (food.isIn(creature.getHead().getX(), creature.getHead().getY())) {
+                        // есть еду
+                        map.remove(food);
+                        food = null;
+                        creatureState = CreatureState.TETRIS_FALLING;
+                        creature.recolor(TetrisCreature.PIEC_COLOR);
+                    }
+                } else {
+                    creatureState = CreatureState.TETRIS_FALLING;
+                    creature.recolor(TetrisCreature.PIEC_COLOR);
+                }
+                break;
 
-        if (food.isIn(snakeCreature.getHead().getX(), snakeCreature.getHead().getY())){
-            map.remove(food);
-            food = map.spawnFood();
+            case TETRIS_FALLING:
+                if (map.isPillarBellow(creature)) {
+                    spawnSnakeFood();
+                    map.checkLayers(creature, food);
+                    creatureState = CreatureState.SNAKE;
+                } else {
+                    creature.moveTetrisDown();
+                }
+                break;
         }
+        callback.onGameUpdate(map, score);
     }
 
     @Override
     public void goUp() {
-        snakeCreature.setMovingDirection(Direction.UP);
+        creature.setMovingDirection(Direction.UP);
     }
 
     @Override
     public void goDown() {
-        snakeCreature.setMovingDirection(Direction.DOWN);
+        creature.setMovingDirection(Direction.DOWN);
     }
 
     @Override
     public void goRight() {
-        snakeCreature.setMovingDirection(Direction.RIGHT);
+        creature.setMovingDirection(Direction.RIGHT);
     }
 
     @Override
     public void goLeft() {
-        snakeCreature.setMovingDirection(Direction.LEFT);
+        creature.setMovingDirection(Direction.LEFT);
     }
 
     @Override

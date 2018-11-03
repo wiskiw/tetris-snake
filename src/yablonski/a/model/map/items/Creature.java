@@ -4,6 +4,7 @@ import yablonski.a.model.Block;
 import yablonski.a.model.Direction;
 import yablonski.a.model.TurnDirection;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Creature implements SnakeCreature, TetrisCreature {
@@ -82,5 +83,10 @@ public class Creature implements SnakeCreature, TetrisCreature {
     @Override
     public boolean isIn(int x, int y) {
         return false;
+    }
+
+    @Override
+    public void recolor(Color color) {
+        getBody().forEach(block -> block.setColor(color));
     }
 }
